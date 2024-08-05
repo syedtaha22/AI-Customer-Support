@@ -286,7 +286,7 @@ export default function Page() {
 									sx={{
 										maxWidth: '80%',
 										borderRadius: '20px',
-										padding: 3,
+										padding: 2,
 										marginBottom: 2,
 										color: currentTheme.palette.text.primary,
 										backgroundColor: message.role === 'assistant' ? currentTheme.palette.background.default : currentTheme.palette.primary.main,

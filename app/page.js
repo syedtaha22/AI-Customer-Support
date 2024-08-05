@@ -4,13 +4,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Stack, TextField, Typography, ThemeProvider, createTheme, Menu, MenuItem, IconButton, AppBar, Toolbar } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { solarizedlight, solarizeddark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/github-dark.css'; // Import dark theme for syntax highlighting
+import 'highlight.js/styles/github.css'; // Import light theme for syntax highlighting
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ChatIcon from '@mui/icons-material/Chat';
-import { styled } from '@mui/system';
 
 // Function to create a MUI theme based on the selected mode ('light' or 'dark')
 const getTheme = (mode) =>
@@ -33,11 +33,12 @@ const getTheme = (mode) =>
 			},
 		},
 		components: {
+			// Style overrides for the MUI TextField component
 			MuiTextField: {
 				styleOverrides: {
 					root: {
 						'& .MuiOutlinedInput-root': {
-							borderRadius: 50,
+							borderRadius: 20,
 							'&.Mui-focused fieldset': {
 								borderColor: mode === 'dark' ? '#E0E0E0' : '#000',
 							},
@@ -45,6 +46,7 @@ const getTheme = (mode) =>
 					},
 				},
 			},
+			// Style overrides for the MUI Button component
 			MuiButton: {
 				styleOverrides: {
 					root: {
@@ -52,9 +54,11 @@ const getTheme = (mode) =>
 					},
 				},
 			},
+			// Style overrides for code blocks
 			MuiTypography: {
 				styleOverrides: {
 					root: {
+						// Custom styles for pre and code elements
 						'& pre': {
 							backgroundColor: mode === 'dark' ? '#1E1E1E' : '#f5f5f5',
 							color: mode === 'dark' ? '#dcdcdc' : '#333333',
@@ -79,27 +83,6 @@ const getTheme = (mode) =>
 		},
 	});
 
-// Custom styled TextField to handle scrollbar styling
-const CustomTextField = styled(TextField)(({ theme }) => ({
-	'& .MuiInputBase-input': {
-		scrollbarColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5) transparent' : 'rgba(0, 0, 0, 0.5) transparent',
-		scrollbarWidth: 'thin',
-	},
-	'& .MuiInputBase-input::-webkit-scrollbar': {
-		width: '8px',
-		backgroundColor: 'transparent',
-	},
-	'& .MuiInputBase-input::-webkit-scrollbar-thumb': {
-		backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
-		borderRadius: '10px',
-	},
-	'& .MuiInputBase-input::-webkit-scrollbar-thumb:hover': {
-		backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
-	},
-	'& .MuiInputBase-input::-webkit-scrollbar-track': {
-		backgroundColor: 'transparent',
-	},
-}));
 
 // Main component for the chat page
 export default function Page() {
@@ -193,6 +176,7 @@ export default function Page() {
 		setMode((prevMode) => (prevMode === 'dark' ? 'light' : 'dark'));
 	};
 
+
 	const currentTheme = getTheme(mode);
 
 	// Handle opening and closing of user menu
@@ -272,11 +256,11 @@ export default function Page() {
 									background: 'transparent',
 								},
 								'&::-webkit-scrollbar-thumb': {
-									background: currentTheme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+									background: 'rgba(255, 255, 255, 0.1)',
 									borderRadius: '10px',
 								},
 								'&::-webkit-scrollbar-thumb:hover': {
-									background: currentTheme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+									background: 'rgba(255, 255, 255, 0.2)',
 								},
 							}}
 						>
@@ -286,17 +270,39 @@ export default function Page() {
 									sx={{
 										maxWidth: '80%',
 										borderRadius: '20px',
-										padding: 2,
-										marginBottom: 2,
+										padding: 2, // Increased padding
+										marginBottom: 1, // Increased margin-bottom
 										color: currentTheme.palette.text.primary,
 										backgroundColor: message.role === 'assistant' ? currentTheme.palette.background.default : currentTheme.palette.primary.main,
 										alignSelf: message.role === 'assistant' ? 'flex-start' : 'flex-end',
 										border: message.role === 'assistant' ? '1px solid #333' : `1px solid ${currentTheme.palette.primary.main}`,
 										overflowWrap: 'break-word',
-										lineHeight: '1.5',
+										lineHeight: '1.5', // Increased line-height for better readability
+										// Markdown specific styles
+										'& p': {
+											marginBottom: '0px', // Space between paragraphs
+										},
+										'& ul, & ol': {
+											marginLeft: '2em', // Space before list items
+										},
+										'& code': {
+											backgroundColor: 'rgba(100,100,100,0.1)', // Change this to update background color of code blocks
+											padding: '0.2em 0.4em',
+											borderRadius: '4px',
+											fontSize: '0.9em',
+											// border: `1px solid ${currentTheme.palette.divider}`,
+										},
+										'& pre': {
+											padding: '1em',
+											borderRadius: '4px',
+											overflowX: 'auto',
+											whiteSpace: 'pre-wrap',
+											marginBottom: '0.5em',
+											// border: `1px solid ${currentTheme.palette.divider}`,
+										},
 									}}
 								>
-									<ReactMarkdown remarkPlugins={[remarkGfm]}>
+									<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
 										{message.content}
 									</ReactMarkdown>
 								</Box>
@@ -313,12 +319,13 @@ export default function Page() {
 								borderTop: `1px solid ${currentTheme.palette.divider}`,
 							}}
 						>
-							<CustomTextField
+							<TextField
 								variant="outlined"
 								label="Type a message"
 								fullWidth
-								multiline
-								maxRows={3}
+								multiline // Allows for multiline input
+								// rows={1} // Initial height (number of visible lines)
+								maxRows={3} // Maximum height (number of visible lines when expanded)
 								value={message}
 								onChange={(e) => setMessage(e.target.value)}
 								onKeyPress={handleKeyPress}
@@ -337,7 +344,7 @@ export default function Page() {
 						</Box>
 					</Box>
 				</Box>
-			</Box>
-		</ThemeProvider>
+			</Box >
+		</ThemeProvider >
 	);
 }

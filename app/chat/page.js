@@ -11,13 +11,15 @@ import {
 	IconButton,
 	TextField,
 	Stack,
+	Grow,
 } from '@mui/material';
 import { Search as SearchIcon, Assistant } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-import 'highlight.js/styles/github-dark.css';
+import 'highlight.js/styles/github-dark.css'; // GitHub dark theme for code highlighting
 
+// Functional component to render a custom Bot Icon using SVG
 function BotIcon(props) {
 	return (
 		<svg
@@ -42,32 +44,43 @@ function BotIcon(props) {
 	);
 }
 
+// Main Page component
 const Page = () => {
+	// State to store chat messages
 	const [messages, setMessages] = useState([
 		{
 			role: 'assistant',
 			content: "Hi! I'm the AI Assistant. How can I help you today?",
 		},
 	]);
+	// State to store the current message input by the user
 	const [message, setMessage] = useState('');
+	// State to indicate whether a message is being processed
 	const [isLoading, setIsLoading] = useState(false);
+	// State to track if the input should be at the bottom of the screen
 	const [inputAtBottom, setInputAtBottom] = useState(false);
+	// Ref to keep track of the messages end for auto-scrolling
 	const messagesEndRef = useRef(null);
+	// Ref to keep track of the input field
 	const inputRef = useRef(null);
 
+	// Function to send a message
 	const sendMessage = async () => {
+		// Prevent sending empty messages or if already loading
 		if (!message.trim() || isLoading) return;
-		setIsLoading(true);
+		setIsLoading(true); // Set loading state
 
+		// Add user message and a placeholder for assistant response
 		setMessages((prevMessages) => [
 			...prevMessages,
 			{ role: 'user', content: message },
 			{ role: 'assistant', content: '' },
 		]);
 
-		setMessage('');
+		setMessage(''); // Clear the message input
 
 		try {
+			// Send user message to the server
 			const response = await fetch('/api/chat', {
 				method: 'POST',
 				headers: {
@@ -76,10 +89,12 @@ const Page = () => {
 				body: JSON.stringify([...messages, { role: 'user', content: message }]),
 			});
 
+			// Throw error if network response is not ok
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
 
+			// Read and decode the stream of data from the server
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
@@ -98,6 +113,7 @@ const Page = () => {
 			}
 		} catch (error) {
 			console.error('Error:', error);
+			// Display error message if an error occurs
 			setMessages((prevMessages) => [
 				...prevMessages,
 				{
@@ -107,27 +123,32 @@ const Page = () => {
 			]);
 		}
 
-		setIsLoading(false);
+		setIsLoading(false); // Reset loading state
 	};
 
+	// Handle Enter key press to send a message
 	const handleKeyPress = (event) => {
 		if (event.key === 'Enter' && !event.shiftKey) {
 			event.preventDefault();
-			setInputAtBottom(true);  // Move the input field to the bottom
-			sendMessage();
+			setInputAtBottom(true); // Move the input field to the bottom
+			sendMessage(); // Send the message
 		}
 	};
 
+	// Scroll to the bottom of the messages container
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	};
 
+	// Scroll to the bottom whenever messages change
 	useEffect(() => {
 		scrollToBottom();
 	}, [messages]);
 
 	return (
+		// Main container with dark background
 		<div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#121212', color: 'white' }}>
+			{/* App bar with bot icon and sign out button */}
 			<AppBar position="static" elevation={0} style={{ backgroundColor: '#121212', color: 'white' }}>
 				<Toolbar>
 					<IconButton edge="start" color="inherit" aria-label="bot-icon">
@@ -151,6 +172,7 @@ const Page = () => {
 							overflow: 'hidden',
 							transition: 'all 0.3s ease',
 						}}
+						// Change button color on hover
 						onMouseEnter={(e) => {
 							e.currentTarget.style.backgroundColor = 'white';
 							e.currentTarget.style.color = 'black';
@@ -165,10 +187,12 @@ const Page = () => {
 				</Toolbar>
 			</AppBar>
 
+			{/* Main content area */}
 			<main style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingBottom: '55px' }}>
 				{!inputAtBottom ? (
+					// Initial state: Landing page with welcome message and input box
 					<Container maxWidth="md" style={{ textAlign: 'center' }}>
-						<Typography variant="h3" component="h1" gutterBottom align="center" style={{ color: 'white' }} mt='15vh'>
+						<Typography variant="h3" component="h1" gutterBottom align="center" style={{ color: 'white' }} mt="15vh">
 							Effortless Customer Service with AI
 						</Typography>
 						<Typography variant="h5" paragraph align="center" style={{ color: '#b0b0b0' }}>
@@ -177,7 +201,7 @@ const Page = () => {
 						<Box mt={4} display="flex" justifyContent="center">
 							<TextField
 								variant="outlined"
-								autoComplete='off'
+								autoComplete="off"
 								placeholder="Ask me anything..."
 								value={message}
 								onChange={(e) => setMessage(e.target.value)}
@@ -222,6 +246,7 @@ const Page = () => {
 						</Box>
 					</Container>
 				) : (
+					// Chat state: Messages list and input at bottom
 					<Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%' }}>
 						<Box
 							sx={{
@@ -232,7 +257,7 @@ const Page = () => {
 								margin: '0 auto',
 								padding: 2,
 								overflowY: 'auto',
-								height: `calc(100vh - 120px)`, // Adjust height to fit messages container
+								height: 'calc(100vh - 120px)', // Adjust height to fit messages container
 								'&::-webkit-scrollbar': {
 									width: '8px',
 									background: 'transparent',
@@ -248,7 +273,6 @@ const Page = () => {
 								'&::-webkit-scrollbar-thumb:hover': {
 									background: 'rgba(255, 255, 255, 0.2)',
 								},
-
 							}}
 						>
 							<Stack direction="column" spacing={2}>
@@ -261,7 +285,7 @@ const Page = () => {
 											padding: 2,
 											marginBottom: 1,
 											color: 'white',
-											backgroundColor: msg.role === 'assistant' ? '#333' : '#1E88E5',
+											backgroundColor: msg.role === 'assistant' ? '#333' : '#1e1e1e',
 											alignSelf: msg.role === 'assistant' ? 'flex-start' : 'flex-end',
 											overflowWrap: 'break-word',
 											lineHeight: '1.5', // Increased line-height for better readability
@@ -277,7 +301,7 @@ const Page = () => {
 												padding: '0.2em 0.4em',
 												borderRadius: '4px',
 												fontSize: '0.9em',
-												// border: `1px solid ${currentTheme.palette.divider}`,
+												// border: 1px solid ${currentTheme.palette.divider},
 											},
 											'& pre': {
 												padding: '1em',
@@ -285,7 +309,7 @@ const Page = () => {
 												overflowX: 'auto',
 												whiteSpace: 'pre-wrap',
 												marginBottom: '0.5em',
-												// border: `1px solid ${currentTheme.palette.divider}`,
+												// border: 1px solid ${currentTheme.palette.divider},
 											}
 										}}
 									>
@@ -302,75 +326,79 @@ const Page = () => {
 										</ReactMarkdown>
 									</Box>
 								))}
+								{/* Reference to scroll to the bottom */}
 								<div ref={messagesEndRef} />
 							</Stack>
 						</Box>
 
-						<Box
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								position: 'fixed',
-								bottom: 0,
-								left: 0,
-								right: 0,
-								padding: 2,
-								width: '100%', // Ensure the box stretches across the full width
-								transition: 'transform 0.5s ease-in-out', // Use transform for smoother transition
-								transform: inputAtBottom ? 'translateY(0)' : 'translateY(100%)', // Apply the transform for smooth movement
-								zIndex: 1,
-								backgroundColor: '#121212',
-							}}
-						>
-							<TextField
-								variant="outlined"
-								placeholder="Ask me anything..."
-								value={message}
-								onChange={(e) => setMessage(e.target.value)}
-								onKeyPress={handleKeyPress}
-								InputProps={{
-									endAdornment: (
-										<IconButton onClick={sendMessage} disabled={isLoading}>
-											<SearchIcon style={{ color: 'white' }} />
-										</IconButton>
-									),
-								}}
-								fullWidth
+						{/* Input box at the bottom */}
+						<Grow in={inputAtBottom} timeout={500}>
+							<Box
 								sx={{
-									backgroundColor: '#333',
-									color: 'white',
-									borderRadius: '50px',
-									width: '400px', // Set a fixed width
-									'& .MuiOutlinedInput-root': {
-										borderRadius: '50px',
-										'& fieldset': {
-											borderColor: '#555',
-										},
-										'&:hover fieldset': {
-											borderColor: '#777',
-										},
-										'&.Mui-focused fieldset': {
-											borderColor: 'white',
-										},
-									},
-									'& .MuiInputBase-input': {
-										color: 'white',
-									},
-									'& .MuiInputLabel-root': {
-										color: '#aaa',
-									},
-									'& .MuiInputLabel-root.Mui-focused': {
-										color: 'white',
-									},
+									display: 'flex',
+									justifyContent: 'center',
+									position: 'fixed',
+									bottom: 0,
+									left: 0,
+									right: 0,
+									padding: 2,
+									width: '100%', // Ensure the box stretches across the full width
+									transition: 'transform 0.5s ease-in-out', // Use transform for smoother transition
+									transform: inputAtBottom ? 'translateY(0)' : 'translateY(100%)', // Apply the transform for smooth movement
+									zIndex: 1,
+									backgroundColor: '#121212',
 								}}
-								ref={inputRef}
-							/>
-						</Box>
+							>
+								<TextField
+									variant="outlined"
+									placeholder="Ask me anything..."
+									value={message}
+									onChange={(e) => setMessage(e.target.value)}
+									onKeyPress={handleKeyPress}
+									InputProps={{
+										endAdornment: (
+											<IconButton onClick={sendMessage} disabled={isLoading}>
+												<SearchIcon style={{ color: 'white' }} />
+											</IconButton>
+										),
+									}}
+									fullWidth
+									sx={{
+										backgroundColor: '#333',
+										color: 'white',
+										borderRadius: '50px',
+										width: '600px', // Set a fixed width
+										'& .MuiOutlinedInput-root': {
+											borderRadius: '50px',
+											'& fieldset': {
+												borderColor: '#555',
+											},
+											'&:hover fieldset': {
+												borderColor: '#777',
+											},
+											'&.Mui-focused fieldset': {
+												borderColor: 'white',
+											},
+										},
+										'& .MuiInputBase-input': {
+											color: 'white',
+										},
+										'& .MuiInputLabel-root': {
+											color: '#aaa',
+										},
+										'& .MuiInputLabel-root.Mui-focused': {
+											color: 'white',
+										},
+									}}
+									ref={inputRef}
+								/>
+							</Box>
+						</Grow>
 					</Box>
 				)}
 			</main>
-		</div >
+		</div>
 	);
-}
+};
 
 export default Page;

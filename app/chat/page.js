@@ -214,6 +214,7 @@ const ChatPage = () => {
     router.push('/'); // Redirect the user to the landing page after signing out
   };
 
+  // Get Users Email and ID
   useEffect(() => {
     // Fetch the current user's email and UID
     const unsubscribe = onAuthStateChanged(auth, (user) => {

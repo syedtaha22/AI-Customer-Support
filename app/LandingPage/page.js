@@ -223,10 +223,10 @@ const LandingPage = () => {
 			{/* FAQ Section */}
 			<Box sx={{ py: 10, background: '#121212', color: 'white' }}>
 				<Container maxWidth="md">
-					<Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+					<Typography color="white" variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
 						Project Contributors
 					</Typography>
-					<Accordion sx={{ background: '#1f1f1f', borderRadius: '12px', marginBottom: '16px' }}>
+					<Accordion sx={{ background: '#1f1f1f', borderRadius: '12px', marginBottom: '16px', marginTop: '25px' }}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
 							<Typography variant="h6" fontWeight="medium" color="white">Syed Muhammad Taha</Typography>
 						</AccordionSummary>

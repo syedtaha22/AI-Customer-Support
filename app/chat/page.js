@@ -21,8 +21,9 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css'; // GitHub dark theme for code highlighting
 import { useRouter } from 'next/navigation';
-
-
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { firestore, auth } from '@/firebase';
+import { Analytics } from "@vercel/analytics/react";
 import withAuth from '../protectedRoute';
 
 
@@ -52,7 +53,7 @@ function BotIcon(props) {
 }
 
 // Main Page component
-const Page = () => {
+const ChatPage = () => {
   // State to store chat messages
   const [messages, setMessages] = useState([
     {
@@ -73,14 +74,11 @@ const Page = () => {
   const inputRef = useRef(null);
   // For dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
-
   // State to hold user email
   const [userEmail, setUserEmail] = useState('');
   // State to hold user UID
   const [userUid, setUserUid] = useState('');
-
   const [loading, setLoading] = useState(false);
-
   // Initialize router
   const router = useRouter();
 
@@ -471,8 +469,9 @@ const Page = () => {
           </Box>
         )}
       </main>
+      <Analytics />
     </div>
   );
 };
 
-export default Page;
+export default withAuth(ChatPage);

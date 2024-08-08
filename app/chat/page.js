@@ -21,8 +21,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css'; // GitHub dark theme for code highlighting
 import { useRouter } from 'next/navigation';
-
-
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { firestore, auth } from '@/firebase';
 import withAuth from '../protectedRoute';
 
 
@@ -52,7 +52,7 @@ function BotIcon(props) {
 }
 
 // Main Page component
-const Page = () => {
+const ChatPage = () => {
   // State to store chat messages
   const [messages, setMessages] = useState([
     {
@@ -73,14 +73,11 @@ const Page = () => {
   const inputRef = useRef(null);
   // For dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
-
   // State to hold user email
   const [userEmail, setUserEmail] = useState('');
   // State to hold user UID
   const [userUid, setUserUid] = useState('');
-
   const [loading, setLoading] = useState(false);
-
   // Initialize router
   const router = useRouter();
 
@@ -215,6 +212,23 @@ const Page = () => {
     await signOut(auth); // Perform sign out using the authentication service
     router.push('/'); // Redirect the user to the landing page after signing out
   };
+
+  // Get Users Email and ID
+  useEffect(() => {
+    // Fetch the current user's email and UID
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+        setUserUid(user.uid);
+      } else {
+        setUserEmail('');
+        setUserUid('');
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, []);
+
   //////////////////////////////////////////////////
 
 
@@ -224,9 +238,9 @@ const Page = () => {
       {/* App bar with bot icon and sign out button */}
       <AppBar position="static" elevation={0} style={{ backgroundColor: '#121212', color: 'white' }}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="bot-icon">
-            <BotIcon />
-          </IconButton>
+          {/* <IconButton edge="start" color="inherit" aria-label="bot-icon"> */}
+          <BotIcon />
+
           <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
             AI Assistant
           </Typography>
@@ -248,7 +262,7 @@ const Page = () => {
             }}
           >
             <MenuItem >
-              <Typography variant="body2">place_hold@gmail.com</Typography>
+              <Typography variant="body2">{userEmail}</Typography>
             </MenuItem>
             <MenuItem onClick={handleSignOut}>
               <Logout fontSize="small" />
@@ -475,4 +489,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ChatPage;

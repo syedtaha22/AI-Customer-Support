@@ -1,11 +1,11 @@
 'use client';
 
-import Chat from './chat/page';
+import ChatPage from './chat/page';
 
 import { usePathname } from 'next/navigation';
 
 const Page = () => {
-	return <Chat />;
+	return <ChatPage />;
 };
 
 export default Page;

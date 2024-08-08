@@ -222,9 +222,9 @@ const ChatPage = () => {
       {/* App bar with bot icon and sign out button */}
       <AppBar position="static" elevation={0} style={{ backgroundColor: '#121212', color: 'white' }}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="bot-icon">
-            <BotIcon />
-          </IconButton>
+          {/* <IconButton edge="start" color="inherit" aria-label="bot-icon"> */}
+          <BotIcon />
+
           <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
             AI Assistant
           </Typography>

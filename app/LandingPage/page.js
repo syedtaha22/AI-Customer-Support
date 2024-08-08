@@ -166,17 +166,20 @@ const LandingPage = () => {
 			</AppBar>
 
 
-			<Box component="main" sx={{
-				flex: 1,
-				background: '#121212',
-				color: 'white',
-				textAlign: 'center',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				flexDirection: 'column',
-				py: { xs: 10, md: 15 },
-			}}>
+			<Box
+				component="main"
+				sx={{
+					flex: 1,
+					background: '#121212',
+					color: 'white',
+					textAlign: 'center',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					flexDirection: 'column',
+					py: { xs: 10, md: 15 },
+				}}
+			>
 				<Container maxWidth="md">
 					<Typography variant="h3" fontWeight="bold" gutterBottom>
 						Effortless Customer Service with AI
@@ -205,6 +208,7 @@ const LandingPage = () => {
 					</Button>
 				</Container>
 			</Box>
+
 			{/* AI Capabilities Section */}
 			<Box sx={{ py: 10, background: '#1e1e1e', color: 'white' }}>
 				<Container maxWidth="lg">
@@ -279,7 +283,7 @@ const LandingPage = () => {
 					</Box>
 				</Container>
 			</Box>
-		</Box>
+		</Box >
 	);
 }
 

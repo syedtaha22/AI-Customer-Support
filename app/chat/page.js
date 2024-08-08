@@ -23,7 +23,6 @@ import 'highlight.js/styles/github-dark.css'; // GitHub dark theme for code high
 import { useRouter } from 'next/navigation';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { firestore, auth } from '@/firebase';
-import { Analytics } from "@vercel/analytics/react";
 import withAuth from '../protectedRoute';
 
 
@@ -486,7 +485,6 @@ const ChatPage = () => {
           </Box>
         )}
       </main>
-      <Analytics />
     </div>
   );
 };

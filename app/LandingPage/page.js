@@ -196,7 +196,7 @@ const LandingPage = () => {
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								Made the main chat bot with it's whole corresponding page.
+								Engineered the core chatbot logic, enabling intelligent and engaging conversations with users.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>
@@ -206,7 +206,7 @@ const LandingPage = () => {
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								Made the sign in and sign up page with the google authentication.
+								Developed the robust and user-friendly sign-in and sign-up functionalities, including seamless Google authentication integration.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>
@@ -216,7 +216,7 @@ const LandingPage = () => {
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								Made the landing page.
+								Crafted the visually appealing and informative landing page, effectively introducing the project to visitors.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>

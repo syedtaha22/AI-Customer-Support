@@ -1,8 +1,20 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import SignUpPage from "./signup/page";
+import SignInPage from "./signin/page";
+import { usePathname } from 'next/navigation';
 
-export default function Home() {
-  return (
+const Page = () => {
+  const pathname = usePathname();
 
-  );
-}
+  if (pathname === '/signin'){
+    return <SignInPage />;
+  }
+
+  if (pathname == '/signup'){
+    return <SignUpPage />;
+  }
+
+  return <SignUpPage />;
+};
+
+export default Page;

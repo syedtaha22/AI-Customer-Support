@@ -188,35 +188,35 @@ const LandingPage = () => {
 			<Box sx={{ py: 10, background: '#121212', color: 'white' }}>
 				<Container maxWidth="md">
 					<Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
-						Frequently Asked Questions
+						Project Contributors
 					</Typography>
 					<Accordion sx={{ background: '#1f1f1f', borderRadius: '12px', marginBottom: '16px' }}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
-							<Typography variant="h6" fontWeight="medium" color="white">What is the AI assistant?</Typography>
+							<Typography variant="h6" fontWeight="medium" color="white">Syed Muhammad Taha</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								Our AI assistant is a powerful tool designed to provide personalized customer service and support. It uses advanced natural language processing and machine learning algorithms to understand your questions and provide accurate and helpful responses.
+								Made the main chat bot with it's whole corresponding page.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion sx={{ background: '#1f1f1f', borderRadius: '12px', marginBottom: '16px' }}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
-							<Typography variant="h6" fontWeight="medium" color="white">How does the AI assistant work?</Typography>
+							<Typography variant="h6" fontWeight="medium" color="white">Ammar Bin Aamir Khan</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								The AI assistant works by analyzing your input, whether it's a question, a request, or a description of your issue. It then uses its extensive knowledge base and machine learning algorithms to provide the most relevant and helpful response.
+								Made the sign in and sign up page with the google authentication.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion sx={{ background: '#1f1f1f', borderRadius: '12px', marginBottom: '16px' }}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
-							<Typography variant="h6" fontWeight="medium" color="white">What can the AI assistant do?</Typography>
+							<Typography variant="h6" fontWeight="medium" color="white">Rashid Hussain</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant="body2" color="white" sx={{ fontSize: '1.1rem' }}>
-								The AI assistant is capable of a wide range of tasks, including answering questions, providing product recommendations, troubleshooting issues, and even completing simple tasks on your behalf.
+								Made the landing page.
 							</Typography>
 						</AccordionDetails>
 					</Accordion>

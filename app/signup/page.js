@@ -1,27 +1,27 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Box, Button, Container, Typography, TextField, AppBar, Toolbar, CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { auth } from '../../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, provider } from '../../firebase';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#121212', // Dark blue/purple
+      main: '#121212',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#1e1e1e', // Red
+      main: '#1e1e1e', 
     },
     background: {
-      default: '#121212', // Dark blue/purple background
+      default: '#121212', 
     },
     text: {
-      primary: '#ffffff', // White text
-      secondary: '#e94560', // Red text
+      primary: '#ffffff', 
+      secondary: '#e94560',
     },
   },
   typography: {
@@ -68,6 +68,7 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [value, setValue] = useState('');
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -78,7 +79,7 @@ const SignUpPage = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push('/pantry'); // Redirect to pantry page after sign up
+      //router.push('/pantry'); redirect to chat page
     } catch (error) {
       let errorMessage = 'An error occurred. Please try again.';
       switch (error.code) {
@@ -97,6 +98,20 @@ const SignUpPage = () => {
       setError(errorMessage);
     }
   };
+
+  const handleGoogleSignIn = async () => {
+    signInWithPopup(auth, provider).then((data) => {
+      setValue(data.user.email);
+      localStorage.setItem('email', data.user.email);
+      //router.push('/pantry'); push chat page
+    }).catch((error) => {
+      setError('Google sign-in failed. Please try again.');
+    });
+  };
+
+  useEffect(() => {
+    setValue(localStorage.getItem('email'));
+  }, []);
 
   const handleSignIn = () => {
     router.push('/signin');
@@ -192,14 +207,26 @@ const SignUpPage = () => {
               fullWidth
               variant="contained"
               color="secondary"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, borderRadius: '20px',backgroundColor: '#1e1e1e',textTransform: 'none'  }}
             >
               Sign Up
+            </Button>
+            <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
+              or
+            </Typography>
+            <Button
+              fullWidth
+              variant="conatined"
+              color="secondary"
+              sx={{ mt: 2, mb: 2, borderRadius: '20px', backgroundColor: '#1e1e1e', color: '#ffffff', textTransform: 'none' }}
+              onClick={handleGoogleSignIn}
+            >
+              Sign up with Gmail
             </Button>
             <Button
               fullWidth
               variant="text"
-              sx={{ color: '#ffffff' }}
+              sx={{  color: theme.palette.text.primary, mt: 3, borderRadius: '20px',textTransform: 'none' }}
               onClick={handleSignIn}
             >
               Already have an account? Sign In

@@ -1,27 +1,27 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Box, Button, Container, Typography, TextField, AppBar, Toolbar, CssBaseline } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Button, Container, Typography, TextField, AppBar, Toolbar, CssBaseline, Divider } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { auth } from '../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, provider } from '../../firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#121212', // Dark blue/purple
+      main: '#121212',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#1e1e1e', // Red
+      main: '#1e1e1e',
     },
     background: {
-      default: '#121212', // Dark blue/purple background
+      default: '#121212', 
     },
     text: {
-      primary: '#ffffff', // White text
-      secondary: '#e94560', // Red text
+      primary: '#ffffff', 
+      secondary: '#e94560', 
     },
   },
   typography: {
@@ -38,40 +38,41 @@ const theme = createTheme({
 });
 
 function BotIcon(props) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 8V4H8" />
-        <rect width="16" height="12" x="4" y="8" rx="2" />
-        <path d="M2 14h2" />
-        <path d="M20 14h2" />
-        <path d="M15 13v2" />
-        <path d="M9 13v2" />
-      </svg>
-    );
-  }
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 8V4H8" />
+      <rect width="16" height="12" x="4" y="8" rx="2" />
+      <path d="M2 14h2" />
+      <path d="M20 14h2" />
+      <path d="M15 13v2" />
+      <path d="M9 13v2" />
+    </svg>
+  );
+}
 
 const SignInPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [value, setValue] = useState('');
 
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/pantry');
+      //router.push('/pantry'); push chat page
     } catch (error) {
       let errorMessage = 'An error occurred. Please try again.';
       switch (error.code) {
@@ -91,18 +92,32 @@ const SignInPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    signInWithPopup(auth, provider).then((data) => {
+      setValue(data.user.email);
+      localStorage.setItem('email', data.user.email);
+      //router.push('/pantry'); push chat page
+    }).catch((error) => {
+      setError('Google sign-in failed. Please try again.');
+    });
+  };
+
+  useEffect(() => {
+    setValue(localStorage.getItem('email'));
+  }, []);
+
   const handleSignUp = () => {
     router.push('/signup');
   };
 
   const ToHome = () => {
-    router.push('/')
-  }
+    router.push('/');
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="static" color="primary" elevation={'0'}>
+      <AppBar position="static" color="primary" elevation={0}>
         <Toolbar>
           <BotIcon />
           <Typography variant="h6" color="inherit" style={{ marginLeft: '10px' }}>
@@ -110,7 +125,7 @@ const SignInPage = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="xs"> 
+      <Container maxWidth="xs">
         <Box
           display="flex"
           flexDirection="column"
@@ -118,6 +133,7 @@ const SignInPage = () => {
           justifyContent="center"
           minHeight="80vh"
           textAlign="center"
+          sx={{ backgroundColor: theme.palette.background.default, padding: '20px', borderRadius: '8px' }}
         >
           <Typography variant="h4" component="h1" gutterBottom>
             Sign In
@@ -185,14 +201,26 @@ const SignInPage = () => {
               fullWidth
               variant="contained"
               color="secondary"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, borderRadius: '20px',backgroundColor: '#1e1e1e',textTransform: 'none'  }}
             >
               Sign In
+            </Button>
+            <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
+              or
+            </Typography>
+            <Button
+              fullWidth
+              variant="conatined"
+              color="secondary"
+              sx={{ mt: 2, mb: 2, borderRadius: '20px', backgroundColor: '#1e1e1e', color: '#ffffff', textTransform: 'none' }}
+              onClick={handleGoogleSignIn}
+            >
+              Sign in with Gmail
             </Button>
             <Button
               fullWidth
               variant="text"
-              sx={{ color: '#ffffff' }}
+              sx={{ color: theme.palette.text.primary, mt: 3, borderRadius: '20px',textTransform: 'none'  }}
               onClick={handleSignUp}
             >
               Don&apos;t have an account? Sign Up

@@ -213,6 +213,22 @@ const ChatPage = () => {
     await signOut(auth); // Perform sign out using the authentication service
     router.push('/'); // Redirect the user to the landing page after signing out
   };
+
+  useEffect(() => {
+    // Fetch the current user's email and UID
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+        setUserUid(user.uid);
+      } else {
+        setUserEmail('');
+        setUserUid('');
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, []);
+
   //////////////////////////////////////////////////
 
 
@@ -246,7 +262,7 @@ const ChatPage = () => {
             }}
           >
             <MenuItem >
-              <Typography variant="body2">place_hold@gmail.com</Typography>
+              <Typography variant="body2">{userEmail}</Typography>
             </MenuItem>
             <MenuItem onClick={handleSignOut}>
               <Logout fontSize="small" />

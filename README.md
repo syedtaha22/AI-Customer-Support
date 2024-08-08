@@ -7,13 +7,7 @@ Welcome to the Customer Service AI project! This repository contains CodeBuddy, 
 - **Code Assistance:** Offers help with coding queries by providing code snippets, explanations, and suggestions for improvement.
 - **Language Detection:** Automatically detects the programming language of provided code snippets.
 - **Error Checking:** Identifies errors and suggests optimizations for better performance.
-- **Clear Documentation:** Uses Markdown formatting for code snippets and provides high-level comments to explain the code.
-
-## Usage
-
-1. **Integrate CodeBuddy** into your customer service platform.
-2. **Provide Code Snippets** and let CodeBuddy handle language detection, error checking, and code optimization.
-3. **Receive Clear Explanations** and suggestions to help resolve coding issues efficiently.
+- **Clear Documentation:** Uses Markdown formatting for code snippets and provides high-level comments to explain the code. 
 
 ## Contributors
 

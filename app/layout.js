@@ -4,8 +4,8 @@ import "./globals.css";
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
 
 export const metadata = {
-  title: "AI Assistant",
-  description: "Helps you",
+  title: "CodeBuddy",
+  description: "Your AI coding companion for efficient and effective coding assistance.",
 };
 
 export default function RootLayout({ children }) {

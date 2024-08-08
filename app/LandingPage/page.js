@@ -126,8 +126,40 @@ const LandingPage = () => {
 						</>
 					) : (
 						<Box sx={{ display: 'flex', gap: 2 }}>
-							<Button onClick={handleSignIn} color="inherit" sx={{ mr: 2, '&:hover': { color: 'blue' } }} href="#">Sign In</Button>
-							<Button onClick={handleSignUp} variant="outlined" sx={{ borderColor: 'white', color: 'white', '&:hover': { color: 'blue', borderColor: 'blue' } }} href="#">Sign Up</Button>
+							<Button
+								onClick={handleSignIn}
+
+								sx={{
+									mr: 2,
+									color: '#9a9a9a',
+									textTransform: 'none',
+									'&:hover': {
+										color: '#ffffff'
+									}
+
+								}}
+								href="#"
+							>
+								Sign In
+							</Button>
+							<Button
+								onClick={handleSignUp}
+								variant="outlined"
+								sx={{
+									borderColor: '#9a9a9a',
+									color: '#121212',
+									textTransform: 'none',
+									backgroundColor: '#ffffff',
+									'&:hover': {
+										color: 'white',
+										borderColor: '#121212',
+										backgroundColor: '#313131'
+									}
+								}}
+								href="#"
+							>
+								Sign Up
+							</Button>
 						</Box>
 					)}
 				</Toolbar>
@@ -157,12 +189,15 @@ const LandingPage = () => {
 						variant="contained"
 						size="large"
 						sx={{
-							background: 'var(--primary)',
-							color: 'white',
+							textTransform: 'none',
+							color: '#121212',
 							border: '2px solid white',
+							background: 'white',
 							'&:hover': {
+								background: 'white',
 								background: 'var(--primary)', // Keep the background color unchanged
-								border: '2px solid blue', // Change only the border color
+								border: '2px solid #121212', // Change only the border color
+								color: 'white'
 							},
 						}}
 					>

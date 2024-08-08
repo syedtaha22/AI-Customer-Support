@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Assistant from '@mui/icons-material/Assistant';
 import AutoAwesome from '@mui/icons-material/AutoAwesome';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 
 
 // Custom SVG Icons
@@ -231,14 +232,14 @@ const LandingPage = () => {
 						<Typography variant="h6" sx={{ ml: 2, fontWeight: 'bold', color: 'white' }}>AI Assistant</Typography>
 					</Link>
 					<Box sx={{ display: 'flex', gap: 2 }}>
-						<Link href="https://syedtaha.org/" sx={{ color: 'white', textDecoration: 'none', display: 'flex', alignItems: 'center', '&:hover': { color: 'blue' }, transition: 'color 0.2s' }}>
-							<AccountCircleIcon sx={{ fontSize: 40 }} />
+						<Link href="https://syedtaha.org/" sx={{ display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 }, transition: 'opacity 0.2s' }}>
+							<Avatar src="/taha.jpg" alt="Profile Picture" sx={{ width: 40, height: 40 }} />
 						</Link>
-						<Link href="https://ammar-khan18.github.io/Portfolio-Website/" sx={{ color: 'white', textDecoration: 'none', display: 'flex', alignItems: 'center', '&:hover': { color: 'blue' }, transition: 'color 0.2s' }}>
-							<AccountCircleIcon sx={{ fontSize: 40 }} />
+						<Link href="https://ammar-khan18.github.io/Portfolio-Website/" sx={{ display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 }, transition: 'opacity 0.2s' }}>
+							<Avatar src="/ammar.jpg" alt="Profile Picture" sx={{ width: 40, height: 40 }} />
 						</Link>
-						<Link href="https://rh29152.github.io/Landing-page/" sx={{ color: 'white', textDecoration: 'none', display: 'flex', alignItems: 'center', '&:hover': { color: 'blue' }, transition: 'color 0.2s' }}>
-							<AccountCircleIcon sx={{ fontSize: 40 }} />
+						<Link href="https://rh29152.github.io/Landing-page/" sx={{ display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 }, transition: 'opacity 0.2s' }}>
+							<Avatar src="/rashid.jpg" alt="Profile Picture" sx={{ width: 40, height: 40 }} />
 						</Link>
 					</Box>
 				</Container>

@@ -1,11 +1,21 @@
 'use client';
-
-import Chat from './chat/page';
-
+import SignUpPage from "./signup/page";
+import SignInPage from "./signin/page";
 import { usePathname } from 'next/navigation';
-
+// TO DO - Add Google auth form firebase
 const Page = () => {
-	return <Chat />;
+	const pathname = usePathname();
+
+	if (pathname === '/signin') {
+		return <SignInPage />;
+	}
+
+	if (pathname == '/signup') {
+		return <SignUpPage />;
+	}
+
+	return <SignUpPage />;
 };
 
 export default Page;
+

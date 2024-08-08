@@ -79,7 +79,7 @@ const SignUpPage = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      //router.push('/pantry'); redirect to chat page
+      router.push('/chat');
     } catch (error) {
       let errorMessage = 'An error occurred. Please try again.';
       switch (error.code) {
@@ -103,7 +103,7 @@ const SignUpPage = () => {
     signInWithPopup(auth, provider).then((data) => {
       setValue(data.user.email);
       localStorage.setItem('email', data.user.email);
-      //router.push('/pantry'); push chat page
+      router.push('/chat');
     }).catch((error) => {
       setError('Google sign-in failed. Please try again.');
     });

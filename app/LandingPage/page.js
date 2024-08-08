@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, useMediaQuery, useTheme, Box, Container, Grid, Accordion, AccordionSummary, AccordionDetails, Link, Card, CardContent } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
@@ -80,8 +81,18 @@ const LandingPage = () => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+	const router = useRouter();
+
 	const handleMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
+	};
+
+	const handleSignIn = () => {
+		router.push('/signin');
+	};
+
+	const handleSignUp = () => {
+		router.push('/signup');
 	};
 
 	const handleMenuClose = () => {
@@ -108,14 +119,14 @@ const LandingPage = () => {
 								onClose={handleMenuClose}
 								sx={{ '& .MuiPaper-root': { backgroundColor: '#121212' } }}
 							>
-								<MenuItem onClick={handleMenuClose} component="a" href="#" sx={{ color: 'white' }}>Sign In</MenuItem>
-								<MenuItem onClick={handleMenuClose} component="a" href="#" sx={{ color: 'white' }}>Sign Up</MenuItem>
+								<MenuItem onClick={handleSignIn} component="a" href="#" sx={{ color: 'white' }}>Sign In</MenuItem>
+								<MenuItem onClick={handleSignUp} component="a" href="#" sx={{ color: 'white' }}>Sign Up</MenuItem>
 							</Menu>
 						</>
 					) : (
 						<Box sx={{ display: 'flex', gap: 2 }}>
-							<Button color="inherit" sx={{ mr: 2, '&:hover': { color: 'blue' } }} href="#">Sign In</Button>
-							<Button variant="outlined" sx={{ borderColor: 'white', color: 'white', '&:hover': { color: 'blue', borderColor: 'blue' } }} href="#">Sign Up</Button>
+							<Button onClick={handleSignIn} color="inherit" sx={{ mr: 2, '&:hover': { color: 'blue' } }} href="#">Sign In</Button>
+							<Button onClick={handleSignUp} variant="outlined" sx={{ borderColor: 'white', color: 'white', '&:hover': { color: 'blue', borderColor: 'blue' } }} href="#">Sign Up</Button>
 						</Box>
 					)}
 				</Toolbar>
@@ -141,6 +152,7 @@ const LandingPage = () => {
 						Our AI-powered assistant is here to help you with all your customer service needs. Get instant answers and personalized support.
 					</Typography>
 					<Button
+						onClick={handleSignUp}
 						variant="contained"
 						size="large"
 						sx={{

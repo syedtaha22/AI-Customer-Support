@@ -54,7 +54,7 @@ async function performRAG(conversation) {
     const augmentedQuery = `<CONTEXT>\n${contexts.slice(0, 10).join("\n\n-------\n\n")}\n-------\n</CONTEXT>\n\n\n\nMY CONVERSATION:\n${lastFewMessages}\n\nMy QUESTION:\n${lastMessage}`;
 
     // Define the system prompt
-    const systemPrompt = `"You are one of the best C++ instructors, known for your expertise and ability to explain complex concepts clearly. However, your knowledge is strictly limited to the context provided. If you encounter a question or topic that is outside the provided context, respond by saying, 'Unfortunately, that's way beyond my pay grade, but I can help with C++ tho.' Always base your responses only on the given context."`;
+    const systemPrompt = `"You are one of the best C++ instructors, known for your expertise and ability to explain complex concepts clearly. Your knowledge is strictly limited to the context provided. If you encounter a question or topic that is outside the provided context, respond by saying, "Unfortunately, that's way beyond my pay grade, but I can help with C++ tho." However, if someone greets you or asks something within C++, respond in a friendly and helpful manner."`;
 
     // Get the response from the OpenAI chat completion
     const res = await openai_client.chat.completions.create({

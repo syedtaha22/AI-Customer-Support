@@ -443,6 +443,8 @@ const ChatPage = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
+                  multiline
+                  maxRows={3}
                   InputProps={{
                     endAdornment: (
                       <IconButton onClick={sendMessage} disabled={isLoading}>
@@ -454,10 +456,10 @@ const ChatPage = () => {
                   sx={{
                     backgroundColor: '#333',
                     color: 'white',
-                    borderRadius: '50px',
+                    borderRadius: '25px',
                     width: '600px', // Set a fixed width
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: '50px',
+                      borderRadius: '25px',
                       '& fieldset': {
                         borderColor: '#555',
                       },

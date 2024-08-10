@@ -289,7 +289,6 @@ const ChatPage = () => {
                 autoComplete="off"
                 placeholder="Ask me anything..."
                 value={message}
-
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 InputProps={{

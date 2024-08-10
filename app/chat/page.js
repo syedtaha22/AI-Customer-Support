@@ -57,7 +57,7 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi there! I'm CodeBuddy, your coding companion. How can I assist you with your code today?",
+      content: "Hi there! I'm CodeBuddy, your C++ Instucter. How can I assist you with your code today?",
     },
   ]);
 
